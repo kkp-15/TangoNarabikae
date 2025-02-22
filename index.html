@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>単語抽選</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #wordList { margin: 10px 0; }
+    </style>
+    <script>
+        let words = [];function addWord() {
+        const input = document.getElementById("wordInput");
+        if (input.value.trim() !== "") {
+            words.push(input.value.trim());
+            updateWordList();
+            input.value = "";
+        }
+    }
+    
+    function updateWordList() {
+        const list = document.getElementById("wordList");
+        list.innerHTML = words.map(word => `<li>${word}</li>`).join("");
+    }
+    
+    function startRandom() {
+        if (words.length === 0) {
+            document.getElementById("result").innerText = "単語を追加してください";
+            return;
+        }
+        const shuffled = [...words].sort(() => Math.random() - 0.5);
+        document.getElementById("result").innerText = shuffled.join(" → ");
+    }
+    
+    function clearWords() {
+        words = [];
+        updateWordList();
+        document.getElementById("result").innerText = "";
+    }
+</script>
+
+</head>
+<body>
+    <h1>単語抽選</h1>
+    <input type="text" id="wordInput" placeholder="単語を入力">
+    <button onclick="addWord()">追加</button>
+    <button onclick="startRandom()">スタート</button>
+    <button onclick="clearWords()">クリア</button>
+    <ul id="wordList"></ul>
+    <h2 id="result"></h2>
+</body>
+</html>
