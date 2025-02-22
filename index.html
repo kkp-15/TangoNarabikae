@@ -53,7 +53,16 @@ setTimeout(() => {
     return;
 }
         const shuffled = [...words].sort(() => Math.random() - 0.5);
-                document.getElementById("result").innerText = shuffled.join(" → ");
+                let resultElement = document.getElementById("result");
+    let index = 0;
+    let interval = setInterval(() => {
+        resultElement.innerText = shuffled[index % shuffled.length];
+        index++;
+    }, 100);
+    setTimeout(() => {
+        clearInterval(interval);
+        resultElement.innerText = shuffled.join(" → ");
+    }, 2000);
     }
     
     function clearWords() {
