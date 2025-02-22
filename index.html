@@ -4,8 +4,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>単語抽選</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        #wordList { margin: 10px 0; }
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f9f9f9; padding: 20px; }
+        h1 { color: #333; }
+        #instructions { font-size: 14px; color: #666; margin-bottom: 15px; }
+        input, button { padding: 10px; margin: 5px; font-size: 16px; }
+        input { width: 80%; max-width: 300px; }
+        button { cursor: pointer; border: none; border-radius: 5px; }
+        button:hover { opacity: 0.8; }
+        .btn-primary { background-color: #007bff; color: white; }
+        .btn-danger { background-color: #dc3545; color: white; }
+        #wordList { list-style: none; padding: 0; }
+        #wordList li { background: white; margin: 5px auto; padding: 10px; border-radius: 5px; width: 80%; max-width: 300px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }
+        #result { font-size: 18px; font-weight: bold; color: #007bff; margin-top: 15px; }
     </style>
     <script>
         let words = [];function addWord() {
@@ -36,15 +46,26 @@
         updateWordList();
         document.getElementById("result").innerText = "";
     }
+    
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("wordInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                addWord();
+            }
+        });
+    });
 </script>
 
 </head>
 <body>
     <h1>単語抽選</h1>
+    <p id="instructions">単語を入力して「追加」ボタンを押すか、Enterキーで追加できます。<br>
+    「スタート」ボタンでランダムな順番に並び替え、「クリア」ボタンですべて削除できます。</p>
     <input type="text" id="wordInput" placeholder="単語を入力">
-    <button onclick="addWord()">追加</button>
-    <button onclick="startRandom()">スタート</button>
-    <button onclick="clearWords()">クリア</button>
+    <button class="btn-primary" onclick="addWord()">追加</button>
+    <button class="btn-primary" onclick="startRandom()">スタート</button>
+    <button class="btn-danger" onclick="clearWords()">クリア</button>
     <ul id="wordList"></ul>
     <h2 id="result"></h2>
 </body>
