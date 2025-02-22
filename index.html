@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="ja">
+<!DOCTYPE html>
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,71 +19,73 @@
         #result { font-size: 18px; font-weight: bold; color: #007bff; margin-top: 15px; }
     </style>
     <script>
-        let words = [];function loadWords() {
-        const savedWords = localStorage.getItem("words");
-        if (savedWords) {
-            words = JSON.parse(savedWords);
-            updateWordList();
-        }
-    }
-    
-    function saveWords() {
-        localStorage.setItem("words", JSON.stringify(words));
-    }
-    
-    function addWord() {
-        const input = document.getElementById("wordInput");
-        if (input.value.trim() !== "") {
-            words.push(input.value.trim());
-            updateWordList();
-            saveWords();
-            input.value = "";
-        }
-    }
-    
-    function updateWordList() {
-        const list = document.getElementById("wordList");
-        list.innerHTML = words.map(word => `<li>${word}</li>`).join("");
-    }
-    
-    function startRandom() {
-document.getElementById("result").innerText = "";
-setTimeout(() => {
-        if (words.length === 0) {
-    document.getElementById("result").innerText = "単語を追加してください";
-    return;
-}
-        const shuffled = [...words].sort(() => Math.random() - 0.5);
-                let resultElement = document.getElementById("result");
-    let index = 0;
-    let interval = setInterval(() => {
-        resultElement.innerText = shuffled[index % shuffled.length];
-        index++;
-    }, 100);
-    setTimeout(() => {
-        clearInterval(interval);
-        resultElement.innerText = shuffled.join(" → ");
-    }, 2000);
-    }
-    
-    function clearWords() {
-        words = [];
-        updateWordList();
-        document.getElementById("result").innerText = "";
-        localStorage.removeItem("words");
-    }
-    
-    document.addEventListener("DOMContentLoaded", () => {
-        loadWords();
-        document.getElementById("wordInput").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                addWord();
+        let words = [];
+        
+        function loadWords() {
+            const savedWords = localStorage.getItem("words");
+            if (savedWords) {
+                words = JSON.parse(savedWords);
+                updateWordList();
             }
-        });
-    });
-</script>
+        }
 
+        function saveWords() {
+            localStorage.setItem("words", JSON.stringify(words));
+        }
+
+        function addWord() {
+            const input = document.getElementById("wordInput");
+            if (input.value.trim() !== "") {
+                words.push(input.value.trim());
+                updateWordList();
+                saveWords();
+                input.value = "";
+            }
+        }
+
+        function updateWordList() {
+            const list = document.getElementById("wordList");
+            list.innerHTML = words.map(word => `<li>${word}</li>`).join("");
+        }
+
+        function startRandom() {
+            document.getElementById("result").innerText = "";
+            setTimeout(() => {
+                if (words.length === 0) {
+                    document.getElementById("result").innerText = "単語を追加してください";
+                    return;
+                }
+                const shuffled = [...words].sort(() => Math.random() - 0.5);
+                let resultElement = document.getElementById("result");
+                let index = 0;
+                let interval = setInterval(() => {
+                    resultElement.innerText = shuffled[index % shuffled.length];
+                    index++;
+                }, 100);
+                setTimeout(() => {
+                    clearInterval(interval);
+                    resultElement.innerText = shuffled.join(" → ");
+                }, 2000);
+            });
+        }
+
+        function clearWords() {
+            words = [];
+            updateWordList();
+            document.getElementById("result").innerText = "";
+            localStorage.removeItem("words");
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadWords();
+            document.getElementById("wordInput").addEventListener("keypress", function(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    addWord();
+                }
+            });
+        });
+    </script>
 </head>
 <body>
     <h1>単語シャッフル</h1>
