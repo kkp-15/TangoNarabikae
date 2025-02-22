@@ -46,12 +46,14 @@
     }
     
     function startRandom() {
+document.getElementById("result").innerText = "";
+setTimeout(() => {
         if (words.length === 0) {
-            document.getElementById("result").innerText = "単語を追加してください";
-            return;
-        }
+    document.getElementById("result").innerText = "単語を追加してください";
+    return;
+}
         const shuffled = [...words].sort(() => Math.random() - 0.5);
-        document.getElementById("result").innerText = shuffled.join(" → ");
+                document.getElementById("result").innerText = shuffled.join(" → ");
     }
     
     function clearWords() {
