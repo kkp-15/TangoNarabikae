@@ -18,11 +18,24 @@
         #result { font-size: 18px; font-weight: bold; color: #007bff; margin-top: 15px; }
     </style>
     <script>
-        let words = [];function addWord() {
+        let words = [];function loadWords() {
+        const savedWords = localStorage.getItem("words");
+        if (savedWords) {
+            words = JSON.parse(savedWords);
+            updateWordList();
+        }
+    }
+    
+    function saveWords() {
+        localStorage.setItem("words", JSON.stringify(words));
+    }
+    
+    function addWord() {
         const input = document.getElementById("wordInput");
         if (input.value.trim() !== "") {
             words.push(input.value.trim());
             updateWordList();
+            saveWords();
             input.value = "";
         }
     }
@@ -45,9 +58,11 @@
         words = [];
         updateWordList();
         document.getElementById("result").innerText = "";
+        localStorage.removeItem("words");
     }
     
     document.addEventListener("DOMContentLoaded", () => {
+        loadWords();
         document.getElementById("wordInput").addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 event.preventDefault();
@@ -61,7 +76,8 @@
 <body>
     <h1>単語抽選</h1>
     <p id="instructions">単語を入力して「追加」ボタンを押すか、Enterキーで追加できます。<br>
-    「スタート」ボタンでランダムな順番に並び替え、「クリア」ボタンですべて削除できます。</p>
+    「スタート」ボタンでランダムな順番に並び替え、「クリア」ボタンですべて削除できます。<br>
+    入力した単語は保存され、サイトを閉じても保持されます（クリアするまで）。</p>
     <input type="text" id="wordInput" placeholder="単語を入力">
     <button class="btn-primary" onclick="addWord()">追加</button>
     <button class="btn-primary" onclick="startRandom()">スタート</button>
